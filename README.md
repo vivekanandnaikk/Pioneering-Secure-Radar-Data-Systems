@@ -1,151 +1,106 @@
 # Pioneering Secure Radar Data Systems for Advanced Automotive Safety
 
-A radar-based object distance measurement and secure wireless communication system using ESP32 microcontrollers, AES-128 encryption, and Wi-Fi UDP transmission.
+An academic prototype exploring radar-derived distance measurement and encrypted wireless data transfer between two ESP32 microcontrollers using AES-128 and Wi-Fi/UDP.
+
+> **Safety notice:** This is an educational prototype, not a certified automotive safety system. Do not use it as the sole basis for vehicle control, collision avoidance, or other safety-critical decisions.
 
 ## Overview
 
-This project demonstrates a secure radar data communication system designed for automotive safety, Advanced Driver Assistance Systems (ADAS), and IoT-based applications.
+The project report describes a system that acquires positional measurements from a Texas Instruments AWR1243 radar sensor, calculates object distance from 3D coordinates, encrypts the resulting data with AES-128, and sends it over Wi-Fi using UDP. A second ESP32 receives and decrypts the data, then displays the recovered distance on a 16×2 I2C LCD.
 
-The system captures positional data from a Texas Instruments AWR1243 radar sensor, processes object distance information, encrypts the data using AES-128, and transmits it wirelessly between two ESP32 microcontrollers using Wi-Fi and UDP.
+The report describes radar-to-controller communication over SPI and LCD communication over I2C. This repository currently documents the project; source code, wiring diagrams, dependency manifests, and reproducible setup instructions have not yet been added.
 
-The receiving ESP32 decrypts the transmitted information and displays the recovered distance on an I2C LCD.
+## System workflow
 
-## Key Features
+1. Acquire radar positional measurements (X, Y, Z).
+2. Calculate object distance.
+3. Encrypt the data using AES-128 on the sender ESP32.
+4. Transmit the encrypted data over Wi-Fi using UDP.
+5. Receive and decrypt the data on a second ESP32.
+6. Display the recovered distance on the LCD.
 
-- Radar-based object distance measurement
-- Real-time radar data processing
-- AES-128 data encryption and decryption
-- Wireless communication using ESP32 Wi-Fi
-- UDP-based data transmission
-- Dual ESP32 sender and receiver architecture
-- I2C LCD-based output visualization
-- Communication status feedback
+```text
+AWR1243 radar → ESP32 sender → AES-128 → Wi-Fi / UDP
+                                             ↓
+16×2 I2C LCD ← ESP32 receiver ← decryption ←─┘
+```
 
-## System Architecture
+## Project details
 
-The system consists of two ESP32 microcontrollers:
-
-**Sender Unit**
-1. Acquires radar sensor measurements.
-2. Processes positional data and calculates object distance.
-3. Encrypts the processed data using AES-128.
-4. Transmits the encrypted data through Wi-Fi using UDP.
-
-**Receiver Unit**
-1. Receives encrypted UDP packets.
-2. Decrypts the received information using the corresponding AES configuration.
-3. Processes the recovered distance information.
-4. Displays the decrypted output on the LCD.
-
-## Technologies Used
-
-| Category | Technology |
+| Area | Reported details |
 |---|---|
-| Programming | C/C++ embedded firmware |
-| Microcontroller | ESP32 |
-| Radar sensor | Texas Instruments AWR1243 |
-| Encryption | AES-128 |
-| Communication | Wi-Fi |
-| Network protocol | UDP |
+| Project type | Senior Design Project, Semester VII, academic year 2024–2025 |
+| Institution | KLE Technological University, School of Electronics and Communication Engineering |
+| Microcontrollers | 2 × ESP32 development boards |
+| Radar | Texas Instruments AWR1243 |
 | Radar interface | SPI |
-| Display interface | I2C |
-| Display | 16×2 LCD |
-| Development environments | Arduino IDE, ESP-IDF |
+| Distance input | 3D positional coordinates (X, Y, Z) |
+| Wireless transport | Wi-Fi using UDP |
+| Encryption | AES-128; mode and key-management details are not specified in the report |
+| Display | 16×2 LCD using I2C |
+| Development environments mentioned | Arduino IDE and ESP-IDF; the exact environment used for the final firmware is not confirmed here |
 
-## Hardware Requirements
+## Dataset
 
-- Texas Instruments AWR1243 radar sensor
-- 2 × ESP32 development boards
-- 2 × 16×2 LCD modules
-- USB cables and power supply
-- Jumper wires and prototype boards
-- Wi-Fi network
-- Laptop or computer for development and debugging
-
-## Software Requirements
-
-- Arduino IDE
-- ESP-IDF development framework
-- ESP32 board support and required libraries
-- AES encryption implementation
-- UDP networking support
-
-The exact dependency versions and library requirements will be documented after verification against the source code.
-
-## Project Workflow
-
-Radar Data Acquisition  
-↓  
-Object Distance Calculation  
-↓  
-AES-128 Encryption  
-↓  
-Wi-Fi / UDP Transmission  
-↓  
-ESP32 Receiver  
-↓  
-AES Decryption  
-↓  
-LCD Output Display
+This is an embedded sensing and communications project, not a machine-learning project. It does not use a training, validation, or test dataset. The report describes live radar measurements but does not provide a recorded dataset, sample count, or downloadable data files.
 
 ## Results
 
-The project report demonstrates successful encrypted data transmission and decryption between two ESP32 devices.
+The report describes a demonstration in which the sender indicates encrypted transmission and the receiver displays the decrypted distance. One example shown is:
 
-The sender LCD displays encrypted transmission status, while the receiver LCD displays the decrypted distance information.
+```text
+Decrypted Dist: 5.708
+```
 
-One example displayed in the report is:
+This is an example output, not a documented accuracy result. The report does not provide numerical measurements for latency, throughput, packet loss, distance accuracy, or cryptographic performance.
 
-`Decrypted Dist: 5.708`
+## Hardware described in the report
 
-The report does not provide independently measured latency, throughput, packet-loss percentage, or a numerical accuracy benchmark.
+- Texas Instruments AWR1243 radar sensor
+- 2 × ESP32 development boards
+- 2 × 16×2 LCD modules with I2C interface
+- Wi-Fi network
+- USB cables or external power supply
+- Jumper wires and prototype boards
 
-## Applications
+The report mentions SPI for the radar interface and I2C for the LCD. Pin assignments, circuit diagrams, and power requirements for a reproducible build are not included here.
 
-- Advanced Driver Assistance Systems (ADAS)
-- Automotive safety communication
-- Secure radar data transmission
-- Internet of Things (IoT)
-- Smart transportation systems
-- Industrial monitoring and automation
+## Software and reproducibility
 
-## Limitations
+The report mentions Arduino IDE, ESP-IDF, embedded C/C++, AES encryption/decryption, and UDP networking. The exact firmware, framework versions, library dependencies, AES mode, key provisioning, and configuration are not available in this repository yet. Consequently, build and run instructions are intentionally not provided until they can be verified against the original source files.
 
-- The project is an academic prototype.
-- Quantitative communication and latency benchmarks are not documented in the report.
-- The AES mode and key-management implementation require further documentation.
-- Further testing and optimization are necessary for deployment in safety-critical environments.
+When adding firmware or configuration, do not commit Wi-Fi passwords, private AES keys, or other credentials. Use local, untracked configuration for secrets and document safe setup steps separately.
 
-## Future Enhancements
+## Limitations and security considerations
 
-- Advanced radar signal processing
-- Multi-radar data fusion
-- Improved encryption and key management
-- Cloud-based monitoring and analytics
-- Enhanced HMI visualization
-- Performance optimization for embedded platforms
+- This is an academic prototype, not a production or safety-certified system.
+- The report does not provide quantitative performance benchmarks or a detailed real-world validation protocol.
+- The AES mode, key-management approach, and cryptographic validation are not specified. AES-128 alone does not establish that the overall communication is authenticated or secure against tampering or replay.
+- Source code and complete, reproducible hardware/software setup instructions are not currently included.
+- Further engineering, testing, and independent safety and security review would be required before any operational use.
 
-## Project Information
+## Potential future work
 
-**Project Type:** Senior Design Project  
-**Institution:** KLE Technological University  
-**Department:** School of Electronics and Communication Engineering  
-**Academic Year:** 2024–2025
+- Publish the verified sender and receiver firmware and build instructions.
+- Document wiring, radar configuration, and LCD pin assignments.
+- Specify and review the encryption mode, authentication, key provisioning, and replay protections.
+- Measure and report distance error, end-to-end latency, throughput, and packet loss using a documented test procedure.
+- Explore multi-radar processing and improved visualization.
 
-**Project Team**
+## Project team and acknowledgments
+
+**Project team**
 - Vivekanand Naik
 - Sunil Dyamakkanavar
 - Chetan Havanagi
 - Samarth G
 
-**Project Guides**
+**Project guides**
 - Prof. Shraddha Hiremath
 - Prof. Preeti Pillay
 
-## Safety Disclaimer
-
-This project is an academic prototype intended for educational and demonstration purposes. It is not a certified automotive safety system and must not be used as the sole basis for vehicle control, collision avoidance, or other safety-critical decisions.
+**Institution:** KLE Technological University, School of Electronics and Communication Engineering.
 
 ## License
 
-License to be determined after reviewing the source code and third-party dependencies.
+No license has been selected. Until a license is added, reuse and redistribution permissions are not specified. Review third-party dependencies and ownership before choosing a license.
