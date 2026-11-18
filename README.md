@@ -162,4 +162,4 @@ No license has been selected for original work in this repository. Dataset, upst
 
 ## Author
 
-**Vivekanand Naik** · [GitHub](https://github.com/vivekanandnaikk)
+**Vivekanand Naik** · [GitHub](https://github.com/vivekanandnaikk) · [LinkedIn](https://www.linkedin.com/in/vivekanand-naik)
