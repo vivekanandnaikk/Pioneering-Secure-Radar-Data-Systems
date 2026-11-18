@@ -1,106 +1,165 @@
 # Pioneering Secure Radar Data Systems for Advanced Automotive Safety
 
-An academic prototype exploring radar-derived distance measurement and encrypted wireless data transfer between two ESP32 microcontrollers using AES-128 and Wi-Fi/UDP.
+**Academic senior design project · Semester VII · 2024–2025 · KLE Technological University**
 
-> **Safety notice:** This is an educational prototype, not a certified automotive safety system. Do not use it as the sole basis for vehicle control, collision avoidance, or other safety-critical decisions.
+> **Repository status — documentation foundation.** This repository currently contains documentation only. Sender and receiver firmware, radar configuration, wiring diagrams, dependency manifests, assets, and reproducible test evidence have not been added.
 
-## Overview
+This project report describes a radar-based distance measurement and secure wireless communication prototype using a Texas Instruments AWR1243 radar sensor, two ESP32 microcontrollers, AES-128 encryption, Wi-Fi, UDP, and I2C LCD output.
 
-The project report describes a system that acquires positional measurements from a Texas Instruments AWR1243 radar sensor, calculates object distance from 3D coordinates, encrypts the resulting data with AES-128, and sends it over Wi-Fi using UDP. A second ESP32 receives and decrypts the data, then displays the recovered distance on a 16×2 I2C LCD.
+The report presents the sender as the component that acquires positional radar data, calculates an object distance, encrypts the result, and sends it wirelessly. The receiver obtains the packet, decrypts it, and displays the recovered distance on a 16×2 I2C LCD.
 
-The report describes radar-to-controller communication over SPI and LCD communication over I2C. This repository currently documents the project; source code, wiring diagrams, dependency manifests, and reproducible setup instructions have not yet been added.
+## Project goals
 
-## System workflow
+- Explore radar-derived object distance measurement.
+- Process three-dimensional positional coordinates (X, Y, Z).
+- Encrypt radar-derived data with AES-128 before wireless transfer.
+- Transmit data between ESP32 devices over Wi-Fi using UDP.
+- Demonstrate receiver-side decryption and LCD visualization.
+- Document the hardware, implementation status, results, limitations, and security considerations.
 
-1. Acquire radar positional measurements (X, Y, Z).
-2. Calculate object distance.
-3. Encrypt the data using AES-128 on the sender ESP32.
-4. Transmit the encrypted data over Wi-Fi using UDP.
-5. Receive and decrypt the data on a second ESP32.
-6. Display the recovered distance on the LCD.
+The report frames the work as an educational ADAS and IoT prototype. It is not a certified automotive safety system and must not be relied on for vehicle control or collision avoidance.
 
-```text
-AWR1243 radar → ESP32 sender → AES-128 → Wi-Fi / UDP
-                                             ↓
-16×2 I2C LCD ← ESP32 receiver ← decryption ←─┘
+## Reported project scope
+
+The following describes the project report, not features verified in this repository:
+
+- Radar positional data acquisition using a Texas Instruments AWR1243 sensor.
+- 3D Euclidean/object distance calculation on a sender ESP32.
+- AES-128 processing before Wi-Fi/UDP transmission.
+- Reception, decryption, and distance display on a second ESP32 and I2C LCD.
+- Sender and receiver LCD messages used to demonstrate communication status.
+- SPI for radar interfacing and I2C for LCD interfacing.
+- Arduino IDE and ESP-IDF are mentioned as development environments, but the exact environment used for the final firmware is not confirmed.
+
+The report does not specify a formal output schema, the exact class of data transmitted, the AES mode, key provisioning, authentication mechanism, or replay protections. These details must not be invented.
+
+## Processing overview
+
+```mermaid
+flowchart LR
+    A[AWR1243 radar measurements: X, Y, Z] --> B[ESP32 sender: distance calculation]
+    B --> C[AES-128 encryption]
+    C --> D[Wi-Fi / UDP transmission]
+    D --> E[ESP32 receiver: decryption]
+    E --> F[16×2 I2C LCD: decrypted distance]
 ```
 
-## Project details
+This diagram summarizes the reported design. The corresponding firmware, board configuration, and hardware integration are not present in this repository yet.
 
-| Area | Reported details |
-|---|---|
-| Project type | Senior Design Project, Semester VII, academic year 2024–2025 |
-| Institution | KLE Technological University, School of Electronics and Communication Engineering |
-| Microcontrollers | 2 × ESP32 development boards |
-| Radar | Texas Instruments AWR1243 |
-| Radar interface | SPI |
-| Distance input | 3D positional coordinates (X, Y, Z) |
-| Wireless transport | Wi-Fi using UDP |
-| Encryption | AES-128; mode and key-management details are not specified in the report |
-| Display | 16×2 LCD using I2C |
-| Development environments mentioned | Arduino IDE and ESP-IDF; the exact environment used for the final firmware is not confirmed here |
+## Hardware
+
+| Component | Reported use |
+| --- | --- |
+| Texas Instruments AWR1243 | Radar sensor and object positional measurements |
+| 2 × ESP32 development boards | Sender and receiver units |
+| 2 × 16×2 LCD modules | Sender/receiver status and decrypted distance output |
+| I2C | LCD interface |
+| SPI | Radar interface |
+| Wi-Fi | Wireless transport between ESP32 units |
+| UDP | Packet delivery protocol |
+| USB cables / power supply | Board power and development |
+
+Pin assignments, electrical connections, radar configuration, power requirements, and verified circuit diagrams are not included in this repository.
+
+## Method and tools
+
+| Component | Reported use |
+| --- | --- |
+| ESP32 | Embedded sender and receiver firmware |
+| TI AWR1243 | Radar measurement acquisition |
+| C/C++ embedded firmware | Radar and communication implementation |
+| AES-128 | Data encryption and decryption |
+| Wi-Fi | Network transport |
+| UDP | Packet-based communication |
+| SPI | Radar communication interface |
+| I2C | LCD communication interface |
+| Arduino IDE / ESP-IDF | Development environments mentioned in the report |
 
 ## Dataset
 
-This is an embedded sensing and communications project, not a machine-learning project. It does not use a training, validation, or test dataset. The report describes live radar measurements but does not provide a recorded dataset, sample count, or downloadable data files.
+This project is not a machine-learning project and does not use a training dataset. The report describes live radar measurements under varying environmental conditions, but does not provide a recorded dataset, sample count, downloadable data, or a reproducible test log.
 
-## Results
+## Reported results
 
-The report describes a demonstration in which the sender indicates encrypted transmission and the receiver displays the decrypted distance. One example shown is:
+These are figures or demonstrations stated in the academic report. They have not been independently reproduced or validated from artifacts in this repository.
+
+| Reported item | Report value | Evidence still needed |
+| --- | --- | --- |
+| Demonstrated output | `Decrypted Dist: 5.708` | Verified firmware, input units, test setup, and output capture |
+| Encryption | AES-128 | Exact implementation and AES mode |
+| Communication | Wi-Fi / UDP | Verified network configuration and packet format |
+| Latency | No numerical measurement | Device configuration, timing method, sample count, and aggregation |
+| Throughput | Not reported | Packet size, duration, network conditions, and test procedure |
+| Packet loss | Not reported | Repeated test procedure and loss measurement |
+| Distance accuracy | No numerical benchmark | Ground-truth method and statistical evaluation |
+
+The report does not document the units associated with `5.708`, confidence intervals, or an accuracy percentage. It also does not report an encryption benchmark or packet-loss percentage.
+
+## Repository contents
 
 ```text
-Decrypted Dist: 5.708
+.
+├── README.md
+├── CONTRIBUTING.md
+└── docs/
+    ├── IMPLEMENTATION_STATUS.md
+    └── PROJECT_PLAN.md
 ```
 
-This is an example output, not a documented accuracy result. The report does not provide numerical measurements for latency, throughput, packet loss, distance accuracy, or cryptographic performance.
+This repository currently has no `src/`, `sender/`, `receiver/`, `hardware/`, `assets/`, `results/`, dependency manifest, or report PDF. These should be added only after the original project artifacts are available and verified.
 
-## Hardware described in the report
+## Setup and execution
 
-- Texas Instruments AWR1243 radar sensor
-- 2 × ESP32 development boards
-- 2 × 16×2 LCD modules with I2C interface
-- Wi-Fi network
-- USB cables or external power supply
-- Jumper wires and prototype boards
+There is currently no verified source code, board configuration, radar configuration, dependency manifest, or project-specific command sequence in this repository. Do not infer that a generic ESP32 AES or UDP example has been tested with this project.
 
-The report mentions SPI for the radar interface and I2C for the LCD. Pin assignments, circuit diagrams, and power requirements for a reproducible build are not included here.
+Add setup instructions only after confirming:
 
-## Software and reproducibility
+- The firmware used for each ESP32.
+- The source language and build environment.
+- Board and library versions.
+- Radar and LCD wiring.
+- The AES implementation and mode.
+- Wi-Fi, UDP, and key configuration procedures.
+- Safe handling of network configuration and cryptographic secrets.
 
-The report mentions Arduino IDE, ESP-IDF, embedded C/C++, AES encryption/decryption, and UDP networking. The exact firmware, framework versions, library dependencies, AES mode, key provisioning, and configuration are not available in this repository yet. Consequently, build and run instructions are intentionally not provided until they can be verified against the original source files.
+Never commit real Wi-Fi passwords, private AES keys, or credentials. Use local, untracked configuration and document safe setup steps separately.
 
-When adding firmware or configuration, do not commit Wi-Fi passwords, private AES keys, or other credentials. Use local, untracked configuration for secrets and document safe setup steps separately.
+## Limitations and security
 
-## Limitations and security considerations
-
-- This is an academic prototype, not a production or safety-certified system.
+- No sender or receiver implementation is present in this repository.
 - The report does not provide quantitative performance benchmarks or a detailed real-world validation protocol.
-- The AES mode, key-management approach, and cryptographic validation are not specified. AES-128 alone does not establish that the overall communication is authenticated or secure against tampering or replay.
-- Source code and complete, reproducible hardware/software setup instructions are not currently included.
-- Further engineering, testing, and independent safety and security review would be required before any operational use.
+- The exact AES mode, key-management approach, authentication, replay protection, and cryptographic validation are not specified.
+- AES-128 by itself does not establish integrity or authentication for the complete communication system.
+- The final radar integration status is not independently verified from repository artifacts.
+- No documented testing covers a broad range of operating conditions or safety scenarios.
+- This is an academic/research prototype. It is not safety-certified and must not be relied on for real-world vehicle control or collision avoidance.
 
-## Potential future work
+## Roadmap and status
 
-- Publish the verified sender and receiver firmware and build instructions.
-- Document wiring, radar configuration, and LCD pin assignments.
-- Specify and review the encryption mode, authentication, key provisioning, and replay protections.
-- Measure and report distance error, end-to-end latency, throughput, and packet loss using a documented test procedure.
-- Explore multi-radar processing and improved visualization.
+See [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md) for the documentation and implementation roadmap and [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md) for the distinction between report-described work and repository-verifiable work.
 
-## Project team and acknowledgments
+## Contributors and acknowledgements
 
 **Project team**
+
 - Vivekanand Naik
 - Sunil Dyamakkanavar
 - Chetan Havanagi
 - Samarth G
 
 **Project guides**
+
 - Prof. Shraddha Hiremath
 - Prof. Preeti Pillay
 
 **Institution:** KLE Technological University, School of Electronics and Communication Engineering.
 
+External technologies acknowledged in the report include Texas Instruments AWR1243 and Espressif ESP32. Verify third-party code and library licenses before redistributing firmware or dependencies.
+
 ## License
 
-No license has been selected. Until a license is added, reuse and redistribution permissions are not specified. Review third-party dependencies and ownership before choosing a license.
+No license has been selected for original work in this repository. Dataset, upstream code, dependencies, sensor libraries, and model or firmware assets may have separate terms; check them before reuse or redistribution.
+
+## Author
+
+**Vivekanand Naik** · [GitHub](https://github.com/vivekanandnaikk)
